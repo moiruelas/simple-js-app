@@ -9,3 +9,8 @@ let pokemonList = [
   {name: "Wartortle", height: 1, type: ['Water']},
   {name: "Blastoise", height: 1.6, type: ['Water']},
 ];
+
+for (let i = 0; i < pokemonList.length; i++) {
+  let pokemon = pokemonList[i];
+  document.write(`<p>${pokemon.name} (Height: ${pokemon.height} m) (Type: ${pokemon.type})</p>`);
+}
