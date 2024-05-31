@@ -202,3 +202,15 @@ console.log(divide(4, 2));
 console.log(divide(7, 0));
 console.log(divide(1, 4));
 console.log(divide(12, -3));
+
+let x = 5;
+
+function foo(){
+  let y = 10;
+  console.log("From inside foo(): x = " + x);
+  console.log("From inside foo(): y = " + y);
+}
+
+foo();
+console.log("From outside foo(): x = " + x);
+console.log("From outside foo(): y = " + y);
