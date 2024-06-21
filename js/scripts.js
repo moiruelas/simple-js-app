@@ -168,8 +168,7 @@ pokemonList.forEach(pokemon => {
 });
   //this loop sets the variable 'i' with the value of 0 and then checks if 'i' is less than the length of the array 'pokemonList'. The list has a length of 151. So the loops runs as 'i' = 0 which is less than 151. The i++ is used to add 1 to the value of 'i' every time the loop runs. Since the array is longer than 0, it will add 1 to 'i' every time the loop runs increasing the value of 'i' by 1 until it reaches 151.
   
-for (let i = 0; i < pokemonList.length; i++) {
-  let pokemon = pokemonList[i];
+pokemonList.forEach(pokemon => {
   document.write(`<p>${pokemon.name} (Height: ${pokemon.height} m) (Type: ${pokemon.type}`);
   //this writes the value of the object in the array 'pokemonList' at the index 'i' inlcuding the name, height and type of the pokemon. The <p> tag is used to create a paragraph element and the ${pokemon.name} is used to insert the value of the name property of the pokemon object, height and type. While the "m" in height element is used to insert that letter next to the height to indicate that it is in meters. The pragraph element here is not closed with a </p> becasue it will be closed with the next loop.
 
