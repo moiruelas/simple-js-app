@@ -157,12 +157,7 @@ let tallestPokemon = null;
 let tallestHeight = 0;
 //tallestPokemon is a variable that is set to null as it's the starting point and no pokemon have been found, once one is found it will update it with the name of the pokemon. tallestHeight is another variable, it is set to 0 as no height has been found. As the loop runs it will update the name with the corresponding height.
 
-for (let i = 0; i < pokemonList.length; i++) {
-  //this loop sets the variable 'i' with the value of 0 and then checks if 'i' is less than the length of the array 'pokemonList'. The list has a length of 151. So the loops runs as 'i' = 0 which is less than 151. The i++ is used to add 1 to the value of 'i' every time the loop runs. Since the array is longer than 0, it will add 1 to 'i' every time the loop runs increasing the value of 'i' by 1 until it reaches 151.
-
-  let pokemon = pokemonList[i];
-  //this sets the variable 'pokemon' with the value of the object in the array 'pokemonList' at the index 'i' which will have the value of the current item in the array.
-
+pokemonList.forEach(pokemon => {
   if (pokemon.height > tallestHeight) {
     //This 'if' statement will check if the current pokemon on the list is greater than the tallest height found so far.
     tallestPokemon = pokemon;
@@ -170,7 +165,8 @@ for (let i = 0; i < pokemonList.length; i++) {
     tallestHeight = pokemon.height;
     //If the above statement is true, the 'tallestHeight' variable will be updated to the height of the current pokemon.
   }
-}
+});
+  //this loop sets the variable 'i' with the value of 0 and then checks if 'i' is less than the length of the array 'pokemonList'. The list has a length of 151. So the loops runs as 'i' = 0 which is less than 151. The i++ is used to add 1 to the value of 'i' every time the loop runs. Since the array is longer than 0, it will add 1 to 'i' every time the loop runs increasing the value of 'i' by 1 until it reaches 151.
   
 for (let i = 0; i < pokemonList.length; i++) {
   let pokemon = pokemonList[i];
