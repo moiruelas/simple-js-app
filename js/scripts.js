@@ -155,6 +155,19 @@ let pokemonRepository = (function() {
     {name: "Mew", height: 0.4, type: ['Psychic']},
   ];
 
+  function addListItem(pokemon, isTallest) {
+    let pokemonListElement = document.querySelector(".pokemon-list");
+    let listpokemon = document.createElement("li");
+    let button = document.createElement("button");
+    button.innerText = `${pokemon.name} (Height: ${pokemon.height}m, Type: ${pokemon.type.join(', ')})`;
+    if (isTallest) {
+      button.innerText += " - Wow, that's a big Pokémon!";
+    }
+    button.classList.add("button-class");
+    listpokemon.appendChild(button);
+    pokemonListElement.appendChild(listpokemon);
+  }
+
   return {
     getAll: function() {
       return pokemonList;
@@ -166,14 +179,15 @@ let pokemonRepository = (function() {
       if (typeof item === 'object' && item.name && item.height && item.type) {
       //This checks that the item added is an object with name, height and type.
         pokemonList.push(item);
-        //The push method adds the ne pokemon to the lisr array.
+        //The push method adds the new pokemon to the list array.
         console.log (`${item.name} added to pokemonList.`);
         //This logs in the console that the pokemon has been added correctly.
       } else {
         console.error(`Invalid Pokemon. Please check your Pokemon name, height and type.`);
         //This logs in the conosle if there was an errr in adding the pokemon to the list and advoces to check for errors. I will later update this to be able to identify what exactly did not work.
       }
-    }
+    },
+    addListItem: addListItem
   };
 })();
 
@@ -193,7 +207,9 @@ pokemonRepository.getAll().forEach(pokemon => {
   //this loop sets the variable 'i' with the value of 0 and then checks if 'i' is less than the length of the array 'pokemonList'. The list has a length of 151. So the loops runs as 'i' = 0 which is less than 151. The i++ is used to add 1 to the value of 'i' every time the loop runs. Since the array is longer than 0, it will add 1 to 'i' every time the loop runs increasing the value of 'i' by 1 until it reaches 151.
   
 pokemonRepository.getAll().forEach(pokemon => {
-  let pokemonList = document.querySelector('.pokemon-list');
+  const isTallest = pokemon === tallestPokemon;
+  pokemonRepository.addListItem(pokemon, isTallest);
+  //This loop runs through the entire list of pokemon and calls the addListItem function for each pokemon.
   //This variable will be used to display the pokemon on the screen.
 });
 
