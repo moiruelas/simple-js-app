@@ -156,17 +156,41 @@ let pokemonRepository = (function() {
   ];
 
   function addListItem(pokemon, isTallest) {
+    //This function is named addListItem and takes in two parameters, pokemon and isTallest (this indicates if the pokemon is the tallest).
     let pokemonListElement = document.querySelector(".pokemon-list");
+    //This finds the DOM elemnt with the class named `.pokemon-list` and assigns to the variable named `pokemonListElement`.
     let listpokemon = document.createElement("li");
+    //This creates a new DOM element with the tag name `li` and assigns it to the variable named `listpokemon`. It will be used to contain the name, height and type of the pokemon, it creates one for each pokemon.
     let button = document.createElement("button");
+    //This creates a new button element and assigns it to the variable named `button`. Each pokemon will have a button with the name, height and type of the pokemon.
     button.innerText = `${pokemon.name} (Height: ${pokemon.height}m, Type: ${pokemon.type.join(', ')})`;
+    //This adds the name, height and type of the pokemon to the button.
     if (isTallest) {
       button.innerText += " - Wow, that's a big Pokémon!";
     }
+    //This condition is used to add the text "Wow, that's a big pokemon!" to the button if the pokemon is the tallest.
     button.classList.add("button-class");
+    //This takes the CSS styling for the button and adds it to the button.
+    button.addEventListener('click', function(){
+      showDetails(pokemon);
+    });
+    //This adds an event listener to the button that listens for a click, once a click is detected the function showDetails is called.
     listpokemon.appendChild(button);
+    //This appends (or adds) the button as a child to the list item.
     pokemonListElement.appendChild(listpokemon);
   }
+  //This adds the button to the pokemon list in the DOM (or webpage). This allows it to be displayed on the screen.
+
+  function showDetails(pokemon) {
+    //This defines the function showDetails, which takes one parameter in this case it is called pokemon.
+    console.log(`Name: ${pokemon.name}`);
+    //This logs the name of the pokemon in the console.
+    console.log(`Height: ${pokemon.height}`);
+    //This logs the height of the pokemon in the console.
+    console.log(`Type: ${pokemon.type.join(', ')}`);
+    //This logs the type of the pokemon in the console. I
+  }
+  //Initially this code was just written as console.log(pokemon); However when logging to the conosle it was logging the types as "Array(1)or(2)" for the number of types in the array instead of the actual type. I changed it to print the exact text to actually log the type.
 
   return {
     getAll: function() {
@@ -187,7 +211,8 @@ let pokemonRepository = (function() {
         //This logs in the conosle if there was an errr in adding the pokemon to the list and advoces to check for errors. I will later update this to be able to identify what exactly did not work.
       }
     },
-    addListItem: addListItem
+    addListItem: addListItem,
+    showDetails: showDetails
   };
 })();
 
