@@ -2,12 +2,12 @@ let pokemonRepository = (function() {
   // This is an immediately invoked function expression (IIFE)
   let pokemonList = [];
     //This empty array denoted by [] will be filled out from the API below by the functions below. Mainly by addListItem and loadList.
-  let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=151';//This sets the URL for the API.
+  let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=3';//This sets the URL for the API.
 
-  function addListItem(pokemon, isTallest) {
-    //This function is named addListItem and takes in two parameters, pokemon and isTallest (this indicates if the pokemon is the tallest).
+  function addListItem(pokemon) {
+    //This function is named addListItem and takes in one parameter, pokemon.
     let pokemonListElement = document.querySelector(".pokemon-list");
-    //This finds the DOM elemnt with the class named `.pokemon-list` and assigns to the variable named `pokemonListElement`.
+    //This finds the DOM element with the class named `.pokemon-list` and assigns to the variable named `pokemonListElement`.
     let listpokemon = document.createElement("li");
     //This creates a new DOM element with the tag name `li` and assigns it to the variable named `listpokemon`. 
     //It will be used to contain the name, height and type of the pokemon, it creates one for each pokemon.
@@ -17,10 +17,6 @@ let pokemonRepository = (function() {
     button.innerText = `${pokemon.name}`; 
     //(Height: ${pokemon.height}m, Type: ${pokemon.type.join(', ')})`;
     //This adds the name, height and type of the pokemon to the button.
-    if (isTallest) {
-      button.innerText += " - Wow, that's a big Pokémon!";
-    }
-    //This condition is used to add the text "Wow, that's a big pokemon!" to the button if the pokemon is the tallest.
     button.classList.add("button-class");
     //This takes the CSS styling for the button and adds it to the button.
     button.addEventListener('click', function(){
@@ -36,7 +32,7 @@ let pokemonRepository = (function() {
   function loadList() {
     //This function loads the list of pokemons from the API.
     return fetch(apiUrl).then(function (response) {
-      //This starts a fetch request to the API, the function then returns the promise that resolves to response of the reuqest. 
+      //This starts a fetch request to the API, the function then returns the promise that resolves to response of the request. 
       //Once the promise resolves, the response is passed to the next .then(). 
       return response.json();
       //This returns the response in JSON format
@@ -133,8 +129,8 @@ let pokemonRepository = (function() {
     imageElement.src = imageUrl;
     //This adds the image url to the new 'img'
     imageElement.alt = title;
-    //This selts the alt text title
-    imageElement.classList.add('modal-image'); //Adding a class for styke sheet
+    //This sets the alt text title
+    imageElement.classList.add('modal-image'); //Adding a class for style sheet
 
     modal.appendChild(closeButtonElement);
     //This appends the new 'button' to the modal
@@ -189,7 +185,7 @@ let pokemonRepository = (function() {
       //This logs in the console that the pokemon has been added correctly.
     } else {
       console.error(`Invalid Pokemon. Please check your Pokemon name, height and type.`);
-      //This logs in the conosle if there was an errr in adding the pokemon to the list and advoces to check for errors. I will later update this to be able to identify what exactly did not work.
+      //This logs in the console if there was an error in adding the pokemon to the list and advises to check for errors. I will later update this to be able to identify what exactly did not work.
     }
   }
 
@@ -222,26 +218,4 @@ pokemonRepository.loadList().then(function() {
     pokemonRepository.addListItem(pokemon);
     //This calls the addListItem function from the repository and a new item and button for the pokemon adds it to the DOM making it visible
   });
-});
-
-let tallestPokemon = null;
-let tallestHeight = 0;
-//tallestPokemon is a variable that is set to null as it's the starting point and no pokemon have been found, once one is found it will update it with the name of the pokemon. tallestHeight is another variable, it is set to 0 as no height has been found. As the loop runs it will update the name with the corresponding height.
-
-pokemonRepository.getAll().forEach(pokemon => {
-  if (pokemon.height > tallestHeight) {
-    //This 'if' statement will check if the current pokemon on the list is greater than the tallest height found so far.
-    tallestPokemon = pokemon;
-    //If the above statement is true, the 'tallestPokemon' variable will be updated to the current pokemon.
-    tallestHeight = pokemon.height;
-    //If the above statement is true, the 'tallestHeight' variable will be updated to the height of the current pokemon.
-  }
-});
-  //this loop sets the variable 'i' with the value of 0 and then checks if 'i' is less than the length of the array 'pokemonList'. The list has a length of 151. So the loops runs as 'i' = 0 which is less than 151. The i++ is used to add 1 to the value of 'i' every time the loop runs. Since the array is longer than 0, it will add 1 to 'i' every time the loop runs increasing the value of 'i' by 1 until it reaches 151.
-  
-pokemonRepository.getAll().forEach(pokemon => {
-  const isTallest = pokemon === tallestPokemon;
-  pokemonRepository.addListItem(pokemon, isTallest);
-  //This loop runs through the entire list of pokemon and calls the addListItem function for each pokemon.
-  //This variable will be used to display the pokemon on the screen.
 });
