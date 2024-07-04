@@ -1,8 +1,6 @@
 let pokemonRepository = (function() {
-  // This is an immediately invoked function expression (IIFE)
   let pokemonList = [];
-    //This empty array denoted by [] will be filled out from the API below by the functions below. Mainly by addListItem and loadList.
-  let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=3';//This sets the URL for the API.
+  let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=9';//This sets the URL for the API.
 
   function addListItem(pokemon) {
     //This function is named addListItem and takes in one parameter, pokemon.
@@ -11,14 +9,20 @@ let pokemonRepository = (function() {
     let listpokemon = document.createElement("li");
     //This creates a new DOM element with the tag name `li` and assigns it to the variable named `listpokemon`. 
     //It will be used to contain the name, height and type of the pokemon, it creates one for each pokemon.
+    listpokemon.classList.add("list-group-item");
+    //This adds the CSS class `list-group-item` to the list item.
     let button = document.createElement("button");
     //This creates a new button element and assigns it to the variable named `button`. 
     //Each pokemon will have a button with the name, height and type of the pokemon.
     button.innerText = `${pokemon.name}`; 
     //(Height: ${pokemon.height}m, Type: ${pokemon.type.join(', ')})`;
     //This adds the name, height and type of the pokemon to the button.
-    button.classList.add("button-class");
+    button.classList.add("btn", "btn-primary", "btn-sm");
     //This takes the CSS styling for the button and adds it to the button.
+    button.setAttribute("data-toggle", "modal");
+    //This enables the bootstrap modal to be displayed.
+    //This adds the data-toggle attribute to the button.
+    button.setAttribute("data-target", "#pokemonModal");
     button.addEventListener('click', function(){
       showDetails(pokemon);
     });
@@ -94,85 +98,13 @@ let pokemonRepository = (function() {
   }
 
   function showModal(title, text, imageUrl) {
-    //This function displays the details of the pokemon in a modal dialog (name as title, height as text and image url).
-    let modalContainer = document.querySelector('#modal-container');
-    //This selects the HTML element with the ID 'modal-container' and assigns it to the variable 'modalContainer'.
-    modalContainer.innerHTML = '';
-    //This clears any content that is inside the modalContainer
+    let modalTitle = document.querySelector('.modal-title');
+    let modalBody = document.querySelector('.modal-body');
+    
+    modalTitle.innerText = title;
+    modalBody.innerHTML = `<img src="${imageUrl}" class="img-fluid mb-2" alt="${title}"><p>${text}</p>`;
 
-    let modal = document.createElement('div');
-    //This creates a new 'div' and assigns it to the variable 'modal'
-    modal.classList.add('modal');
-    //This adds the class 'modal' to the new 'div'
-
-    let closeButtonElement = document.createElement('button');
-    //This creates a new 'button' and assigns it to the variable 'closeButtonElement'
-    closeButtonElement.classList.add('modal-close');
-    //This adds the class 'modal-close' to the new 'button' which then allows css styling to be applied
-    closeButtonElement.innerText = 'Close';
-    //This adds the text 'Close' to the new 'button'
-    closeButtonElement.addEventListener('click', hideModal);
-    //This adds an eventListener to the new 'button' that hides the modal effectively closing it when clicked
-
-    let titleElement = document.createElement('h1');
-    //This creates a new 'h1' and assigns it to the variable 'titleElement'
-    titleElement.innerText = title;
-    //This adds the text 'title' to the new 'h1'
-
-    let contentElement = document.createElement('p');
-    //This  creates a new 'p' and assigns it to the variable 'contentElement'
-    contentElement.innerText = text;
-    //  This adds the text 'text' to the new 'p'
-
-    let imageElement = document.createElement('img');
-    //This creates a new 'img' and assigns it to the variable 'imageElement'
-    imageElement.src = imageUrl;
-    //This adds the image url to the new 'img'
-    imageElement.alt = title;
-    //This sets the alt text title
-    imageElement.classList.add('modal-image'); //Adding a class for style sheet
-
-    modal.appendChild(closeButtonElement);
-    //This appends the new 'button' to the modal
-    modal.appendChild(titleElement);
-    //This appends the new 'h1' to the modal
-    modal.appendChild(contentElement);
-    //This appends the new 'p' to the modal
-    modal.appendChild(imageElement);
-    //This appends the new 'imgElement' to the modal
-    modalContainer.appendChild(modal);
-    //This appends the new 'modal' to the modalContainer
-
-    modalContainer.classList.add('is-visible');
-    //This adds the class 'is-visible' to the modalContainer to make it visible
-
-    document.addEventListener('keydown', function(e) {
-      //This listens for the keydown event
-      if (e.key === 'Escape') {
-        //This checks if the key pressed is 'Escape'
-        hideModal();
-        //This hides the modal when the 'Escape' key is pressed
-      }
-    });
-
-    modalContainer.addEventListener('click', (e) => {
-      //This adds an event listener to the modalContainer that listens for a click
-      let target = e.target;
-      //This assigns the click event to the variable 'target'
-      if (target === modalContainer) {
-        //This checks if the target is the modalContainer
-        hideModal();
-        //This hides the modal once clicked outside of it
-      }
-    });
-  }
-
-  function hideModal() {
-    //This function hides the modal by removing the class 'is-visible' from the modalContainer
-    let modalContainer = document.querySelector('#modal-container');
-    //This selects the HTML element with the ID 'modal-container' and assigns it to the variable 'modalContainer'.
-    modalContainer.classList.remove('is-visible');
-    //This removes the class 'is-visible' from the modalContainer to make it invisible using CSS styling
+    $('#pokemonModal').modal(show);
   }
   
   function add(item) {
@@ -181,8 +113,6 @@ let pokemonRepository = (function() {
     //This checks that the item added is an object with name, height and type.
       pokemonList.push(item);
       //The push method adds the new pokemon to the list array.
-      console.log (`${item.name} added to pokemonList.`);
-      //This logs in the console that the pokemon has been added correctly.
     } else {
       console.error(`Invalid Pokemon. Please check your Pokemon name, height and type.`);
       //This logs in the console if there was an error in adding the pokemon to the list and advises to check for errors. I will later update this to be able to identify what exactly did not work.
